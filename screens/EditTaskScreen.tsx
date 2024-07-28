@@ -1,18 +1,10 @@
-import {
-  Alert,
-  Button,
-  StyleSheet,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import {Alert, StyleSheet, Text, TextInput, View} from 'react-native';
 import React, {useState} from 'react';
 import {useTaskStore} from '../store';
 import {RouteProp, useNavigation} from '@react-navigation/native';
 import {HomeStackParamsList} from '../App';
-import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
-import {faTrash} from '@fortawesome/free-solid-svg-icons';
+import {faFloppyDisk, faTrash} from '@fortawesome/free-solid-svg-icons';
+import CustomButtonWithIcon from '../components/CustomButtonWithIcon';
 
 type AddTaskForm = {
   title: string;
@@ -70,7 +62,8 @@ const EditTaskScreen = ({route}: Props) => {
           }
           defaultValue={currentTask.description}
         />
-        <TouchableOpacity
+        <CustomButtonWithIcon
+          text="Update"
           onPress={() => {
             if (Object.values(taskData).every(item => item === '')) {
               Alert.alert('No Changes', 'Please update a field.', [
@@ -85,44 +78,16 @@ const EditTaskScreen = ({route}: Props) => {
                 });
                 navigation.goBack();
               } else {
-                console.log(taskData);
-                Alert.alert('Incomplete', 'Please fill up all fields.', [
-                  {text: 'OK'},
-                ]);
-              }
-            }
-          }}>
-          <FontAwesomeIcon icon={faTrash} />
-          <Text>Update</Text>
-        </TouchableOpacity>
-        {/* <Button
-          title="Update"
-          color="#18122B"
-          onPress={() => {
-            if (Object.values(taskData).every(item => item === '')) {
-              Alert.alert('No Changes', 'Please update a field.', [
-                {text: 'OK'},
-              ]);
-            } else {
-              if (Object.values(taskData).every(item => !!item)) {
-                updateTask({
-                  ...currentTask,
-                  title: taskData.title,
-                  description: taskData.description,
-                });
-                navigation.goBack();
-              } else {
-                console.log(taskData);
                 Alert.alert('Incomplete', 'Please fill up all fields.', [
                   {text: 'OK'},
                 ]);
               }
             }
           }}
-        /> */}
-        <Button
-          title="Delete"
-          color="#18122B"
+          iconName={faFloppyDisk}
+        />
+        <CustomButtonWithIcon
+          text="Delete"
           onPress={() => {
             Alert.alert(
               'Confirm Action',
@@ -139,6 +104,7 @@ const EditTaskScreen = ({route}: Props) => {
               ],
             );
           }}
+          iconName={faTrash}
         />
       </View>
     );
@@ -157,6 +123,6 @@ const styles = StyleSheet.create({
   input: {
     padding: 12,
     borderWidth: 1,
-    borderRadius: 16,
+    borderRadius: 8,
   },
 });

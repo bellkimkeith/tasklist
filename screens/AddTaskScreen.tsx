@@ -73,6 +73,6 @@ const styles = StyleSheet.create({
   input: {
     padding: 12,
     borderWidth: 1,
-    borderRadius: 16,
+    borderRadius: 8,
   },
 });
