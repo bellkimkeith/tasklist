@@ -1,8 +1,13 @@
 import {FlatList, StyleSheet, Text, View} from 'react-native';
 import React from 'react';
 import TaskItem from './TaskItem';
+import {Task} from '../store';
 
-const TaskList = ({tasks}) => {
+type TaskListProps = {
+  tasks: Task[];
+};
+
+const TaskList = ({tasks}: TaskListProps) => {
   if (!tasks.length) {
     return (
       <View style={styles.container}>

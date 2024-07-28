@@ -7,18 +7,23 @@ import BookmarksScreen from './screens/BookmarksScreen';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {faAdd, faBookmark, faHome} from '@fortawesome/free-solid-svg-icons';
 import {StyleSheet, TouchableOpacity} from 'react-native';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import AddTaskScreen from './screens/AddTaskScreen';
+import {
+  createNativeStackNavigator,
+  NativeStackNavigationProp,
+} from '@react-navigation/native-stack';
 import DetailsScreen from './screens/DetailsScreen';
+import AddTaskScreen from './screens/AddTaskScreen';
+import EditTaskScreen from './screens/EditTaskScreen';
 
-type DetailsScreenParams = {
-  id: string;
+export type ScreenParams = {
+  id: string | undefined;
 };
 
 export type HomeStackParamsList = {
   Home: undefined;
-  Details: DetailsScreenParams;
+  Details: ScreenParams;
   AddTask: undefined;
+  EditTask: ScreenParams;
 };
 
 function App(): React.JSX.Element {
@@ -27,7 +32,8 @@ function App(): React.JSX.Element {
   const BookmarkStack = createNativeStackNavigator();
 
   function HomeStackScreen() {
-    const navigation = useNavigation();
+    const navigation =
+      useNavigation<NativeStackNavigationProp<HomeStackParamsList>>();
     return (
       <HomeStack.Navigator>
         <HomeStack.Screen
@@ -36,12 +42,11 @@ function App(): React.JSX.Element {
           options={{
             headerStyle: {backgroundColor: '#9290C3'},
             headerRight: () => (
-              <TouchableOpacity
-                onPress={() => navigation.navigate('AddTask' as never)}>
+              <TouchableOpacity onPress={() => navigation.navigate('AddTask')}>
                 <FontAwesomeIcon
                   icon={faAdd}
                   style={styles.headerIcon}
-                  size={24}
+                  size={18}
                 />
               </TouchableOpacity>
             ),
@@ -54,6 +59,15 @@ function App(): React.JSX.Element {
             headerStyle: {backgroundColor: '#9290C3'},
             headerTintColor: '#18122B',
             title: 'Add Task',
+          }}
+        />
+        <HomeStack.Screen
+          name="EditTask"
+          component={EditTaskScreen}
+          options={{
+            headerStyle: {backgroundColor: '#9290C3'},
+            headerTintColor: '#18122B',
+            title: 'Edit Task',
           }}
         />
         <HomeStack.Screen

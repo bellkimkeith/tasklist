@@ -5,9 +5,20 @@ import {faEdit, faInfoCircle} from '@fortawesome/free-solid-svg-icons';
 import {useNavigation} from '@react-navigation/native';
 import {faSquare, faSquareCheck} from '@fortawesome/free-regular-svg-icons';
 import {useTaskStore} from '../store';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import {HomeStackParamsList} from '../App';
 
-const TaskItem = ({id, title, description, date, completed}) => {
-  const navigation = useNavigation();
+type TaskItemProp = {
+  id: string;
+  title: string;
+  description: string;
+  date: string;
+  completed: boolean;
+};
+
+const TaskItem = ({id, title, description, date, completed}: TaskItemProp) => {
+  const navigation =
+    useNavigation<NativeStackNavigationProp<HomeStackParamsList>>();
   const disabledIconColor = '#CCCCCC';
   const toggleComplete = useTaskStore().toggleComplete;
 
@@ -36,17 +47,17 @@ const TaskItem = ({id, title, description, date, completed}) => {
             onPress={() => navigation.navigate('Details', {id: id})}>
             <FontAwesomeIcon
               icon={faInfoCircle}
-              color={completed && disabledIconColor}
+              color={completed ? disabledIconColor : undefined}
             />
             <Text style={completed && styles.disabled}>Details</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.action}
             disabled={completed}
-            onPress={() => console.log('pressed')}>
+            onPress={() => navigation.navigate('EditTask', {id: id})}>
             <FontAwesomeIcon
               icon={faEdit}
-              color={completed && disabledIconColor}
+              color={completed ? disabledIconColor : undefined}
             />
             <Text style={completed && styles.disabled}>Edit</Text>
           </TouchableOpacity>

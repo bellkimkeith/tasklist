@@ -14,7 +14,6 @@ const AddTaskScreen = () => {
     description: '',
   });
   const navigation = useNavigation();
-
   const addTask = useTaskStore().addTask;
 
   return (
