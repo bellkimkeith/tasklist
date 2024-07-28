@@ -2,25 +2,52 @@ import {Platform, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import React from 'react';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {faEdit, faInfoCircle} from '@fortawesome/free-solid-svg-icons';
+import {useNavigation} from '@react-navigation/native';
+import {faSquare, faSquareCheck} from '@fortawesome/free-regular-svg-icons';
+import {useTaskStore} from '../store';
 
-const TaskItem = ({title, description, date}) => {
+const TaskItem = ({id, title, description, date, completed}) => {
+  const navigation = useNavigation();
+  const disabledIconColor = '#CCCCCC';
+  const toggleComplete = useTaskStore().toggleComplete;
+
   return (
     <View style={styles.container}>
-      <Text style={styles.header}>{title}</Text>
-      <Text style={styles.description}>{description}</Text>
-      <Text>{date}</Text>
+      <View style={styles.headerContainer}>
+        <Text style={[styles.header, completed && styles.completedText]}>
+          {title}
+        </Text>
+        <TouchableOpacity onPress={() => toggleComplete(id)}>
+          <FontAwesomeIcon
+            icon={completed ? faSquareCheck : faSquare}
+            size={20}
+          />
+        </TouchableOpacity>
+      </View>
+      <Text style={[styles.description, completed && styles.completedText]}>
+        {description}
+      </Text>
+      <Text style={completed && styles.completedText}>{date}</Text>
       <View style={styles.actionsContainer}>
         <TouchableOpacity
           style={styles.action}
-          onPress={() => console.log('pressed')}>
-          <FontAwesomeIcon icon={faInfoCircle} />
-          <Text>Details</Text>
+          disabled={completed}
+          onPress={() => navigation.navigate('Details', {id: id})}>
+          <FontAwesomeIcon
+            icon={faInfoCircle}
+            color={completed && disabledIconColor}
+          />
+          <Text style={completed && styles.disabled}>Details</Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.action}
+          disabled={completed}
           onPress={() => console.log('pressed')}>
-          <FontAwesomeIcon icon={faEdit} />
-          <Text>Edit</Text>
+          <FontAwesomeIcon
+            icon={faEdit}
+            color={completed && disabledIconColor}
+          />
+          <Text style={completed && styles.disabled}>Edit</Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -43,6 +70,10 @@ const styles = StyleSheet.create({
     padding: 16,
     gap: 8,
   },
+  headerContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
   actionsContainer: {
     flex: 1,
     justifyContent: 'flex-end',
@@ -57,5 +88,11 @@ const styles = StyleSheet.create({
   },
   description: {
     fontWeight: 'semibold',
+  },
+  disabled: {
+    color: '#CCCCCC',
+  },
+  completedText: {
+    textDecorationLine: 'line-through',
   },
 });

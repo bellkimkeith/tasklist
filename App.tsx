@@ -9,10 +9,21 @@ import {faAdd, faBookmark, faHome} from '@fortawesome/free-solid-svg-icons';
 import {StyleSheet, TouchableOpacity} from 'react-native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import AddTaskScreen from './screens/AddTaskScreen';
+import DetailsScreen from './screens/DetailsScreen';
+
+type DetailsScreenParams = {
+  id: string;
+};
+
+export type HomeStackParamsList = {
+  Home: undefined;
+  Details: DetailsScreenParams;
+  AddTask: undefined;
+};
 
 function App(): React.JSX.Element {
   const Tab = createBottomTabNavigator();
-  const HomeStack = createNativeStackNavigator();
+  const HomeStack = createNativeStackNavigator<HomeStackParamsList>();
   const BookmarkStack = createNativeStackNavigator();
 
   function HomeStackScreen() {
@@ -44,6 +55,16 @@ function App(): React.JSX.Element {
             headerTintColor: '#18122B',
             title: 'Add Task',
           }}
+        />
+        <HomeStack.Screen
+          name="Details"
+          component={DetailsScreen}
+          options={{
+            headerStyle: {backgroundColor: '#9290C3'},
+            headerTintColor: '#18122B',
+            title: 'Task Details',
+          }}
+          initialParams={{id: ''}}
         />
       </HomeStack.Navigator>
     );

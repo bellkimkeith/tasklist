@@ -13,9 +13,11 @@ const TaskList = () => {
         renderItem={({item}) => (
           <TaskItem
             key={item.id}
+            id={item.id}
             title={item.title}
             description={item.description}
             date={item.date}
+            completed={item.completed}
           />
         )}
         keyExtractor={item => item.id}
