@@ -1,30 +1,35 @@
-import {FlatList, StyleSheet, View} from 'react-native';
+import {FlatList, StyleSheet, Text, View} from 'react-native';
 import React from 'react';
 import TaskItem from './TaskItem';
-import {useTaskStore} from '../store';
 
-const TaskList = () => {
-  const tasks = useTaskStore().tasks;
-
-  return (
-    <View style={styles.container}>
-      <FlatList
-        data={tasks}
-        renderItem={({item}) => (
-          <TaskItem
-            key={item.id}
-            id={item.id}
-            title={item.title}
-            description={item.description}
-            date={item.date}
-            completed={item.completed}
-          />
-        )}
-        keyExtractor={item => item.id}
-        contentContainerStyle={styles.listContainer}
-      />
-    </View>
-  );
+const TaskList = ({tasks}) => {
+  if (!tasks.length) {
+    return (
+      <View style={styles.container}>
+        <Text>No tasks yet.</Text>
+      </View>
+    );
+  } else {
+    return (
+      <View style={styles.container}>
+        <FlatList
+          data={tasks}
+          renderItem={({item}) => (
+            <TaskItem
+              key={item.id}
+              id={item.id}
+              title={item.title}
+              description={item.description}
+              date={item.date}
+              completed={item.completed}
+            />
+          )}
+          keyExtractor={item => item.id}
+          contentContainerStyle={styles.listContainer}
+        />
+      </View>
+    );
+  }
 };
 
 export default TaskList;

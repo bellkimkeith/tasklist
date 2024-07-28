@@ -27,28 +27,30 @@ const TaskItem = ({id, title, description, date, completed}) => {
       <Text style={[styles.description, completed && styles.completedText]}>
         {description}
       </Text>
-      <Text style={completed && styles.completedText}>{date}</Text>
-      <View style={styles.actionsContainer}>
-        <TouchableOpacity
-          style={styles.action}
-          disabled={completed}
-          onPress={() => navigation.navigate('Details', {id: id})}>
-          <FontAwesomeIcon
-            icon={faInfoCircle}
-            color={completed && disabledIconColor}
-          />
-          <Text style={completed && styles.disabled}>Details</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.action}
-          disabled={completed}
-          onPress={() => console.log('pressed')}>
-          <FontAwesomeIcon
-            icon={faEdit}
-            color={completed && disabledIconColor}
-          />
-          <Text style={completed && styles.disabled}>Edit</Text>
-        </TouchableOpacity>
+      <View style={styles.bottomContainer}>
+        <Text style={completed && styles.completedText}>{date}</Text>
+        <View style={styles.actionsContainer}>
+          <TouchableOpacity
+            style={styles.action}
+            disabled={completed}
+            onPress={() => navigation.navigate('Details', {id: id})}>
+            <FontAwesomeIcon
+              icon={faInfoCircle}
+              color={completed && disabledIconColor}
+            />
+            <Text style={completed && styles.disabled}>Details</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.action}
+            disabled={completed}
+            onPress={() => console.log('pressed')}>
+            <FontAwesomeIcon
+              icon={faEdit}
+              color={completed && disabledIconColor}
+            />
+            <Text style={completed && styles.disabled}>Edit</Text>
+          </TouchableOpacity>
+        </View>
       </View>
     </View>
   );
@@ -74,11 +76,11 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
-  actionsContainer: {
+  bottomContainer: {
     flex: 1,
-    justifyContent: 'flex-end',
+    justifyContent: 'space-between',
     flexDirection: 'row',
-    gap: 12,
+    marginTop: 12,
   },
   action: {
     flexDirection: 'row',
@@ -94,5 +96,9 @@ const styles = StyleSheet.create({
   },
   completedText: {
     textDecorationLine: 'line-through',
+  },
+  actionsContainer: {
+    flexDirection: 'row',
+    gap: 8,
   },
 });

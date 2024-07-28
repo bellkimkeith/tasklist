@@ -1,10 +1,14 @@
-import {StyleSheet, Text, View} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 import React from 'react';
+import TaskList from '../components/TaskList';
+import {useTaskStore} from '../store';
 
 const BookmarksScreen = () => {
+  const tasks = useTaskStore().tasks;
+  const bookmarkedTasks = tasks.filter(task => task.bookmarked);
   return (
     <View style={styles.container}>
-      <Text>BookmarksScreen</Text>
+      <TaskList tasks={bookmarkedTasks} />
     </View>
   );
 };

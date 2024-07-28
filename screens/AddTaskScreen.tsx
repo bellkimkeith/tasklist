@@ -48,6 +48,7 @@ const AddTaskScreen = () => {
               description: taskData.description,
               date: new Intl.DateTimeFormat('en-PH').format(new Date()),
               completed: false,
+              bookmarked: false,
             });
             navigation.goBack();
           } else {

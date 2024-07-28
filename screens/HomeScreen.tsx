@@ -2,12 +2,14 @@ import {StyleSheet, View} from 'react-native';
 import React from 'react';
 import SearchBar from '../components/SearchBar';
 import TaskList from '../components/TaskList';
+import {useTaskStore} from '../store';
 
 const HomeScreen = () => {
+  const tasks = useTaskStore().tasks;
   return (
     <View style={styles.container}>
       <SearchBar />
-      <TaskList />
+      <TaskList tasks={tasks} />
     </View>
   );
 };
