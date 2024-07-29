@@ -1,5 +1,5 @@
 import {Alert, StyleSheet, Text, TextInput, View} from 'react-native';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {useTaskStore} from '../store';
 import {RouteProp, useNavigation} from '@react-navigation/native';
 import {HomeStackParamsList} from '../App';
@@ -29,6 +29,20 @@ const EditTaskScreen = ({route}: Props) => {
     description: '',
   });
 
+  useEffect(() => {
+    if (currentTask) {
+      setTaskData({
+        title: currentTask.title,
+        description: currentTask.description,
+      });
+    } else {
+      setTaskData({
+        title: '',
+        description: '',
+      });
+    }
+  }, [currentTask]);
+
   if (!id || !currentTask) {
     return (
       <View style={styles.container}>
@@ -45,8 +59,7 @@ const EditTaskScreen = ({route}: Props) => {
           autoCapitalize="none"
           autoComplete="off"
           autoCorrect={false}
-          onFocus={() => setTaskData({...taskData, title: currentTask.title})}
-          defaultValue={currentTask.title}
+          value={taskData.title}
         />
         <TextInput
           multiline={true}
@@ -57,31 +70,22 @@ const EditTaskScreen = ({route}: Props) => {
           autoCapitalize="none"
           autoComplete="off"
           autoCorrect={false}
-          onFocus={() =>
-            setTaskData({...taskData, description: currentTask.description})
-          }
-          defaultValue={currentTask.description}
+          value={taskData.description}
         />
         <CustomButtonWithIcon
           text="Update"
           onPress={() => {
-            if (Object.values(taskData).every(item => item === '')) {
-              Alert.alert('No Changes', 'Please update a field.', [
+            if (Object.values(taskData).every(item => !!item)) {
+              updateTask({
+                ...currentTask,
+                title: taskData.title,
+                description: taskData.description,
+              });
+              navigation.goBack();
+            } else {
+              Alert.alert('Incomplete', 'Please fill up all fields.', [
                 {text: 'OK'},
               ]);
-            } else {
-              if (Object.values(taskData).every(item => !!item)) {
-                updateTask({
-                  ...currentTask,
-                  title: taskData.title,
-                  description: taskData.description,
-                });
-                navigation.goBack();
-              } else {
-                Alert.alert('Incomplete', 'Please fill up all fields.', [
-                  {text: 'OK'},
-                ]);
-              }
             }
           }}
           iconName={faFloppyDisk}
