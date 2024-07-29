@@ -1,9 +1,23 @@
-import {StyleSheet, TextInput, View} from 'react-native';
+import {StyleSheet, TextInput, TouchableOpacity, View} from 'react-native';
 import React from 'react';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
-import {faMagnifyingGlass} from '@fortawesome/free-solid-svg-icons';
+import {
+  faArrowDownAZ,
+  faArrowUpZA,
+  faMagnifyingGlass,
+} from '@fortawesome/free-solid-svg-icons';
 
-const SearchBar = () => {
+type SearchBarProps = {
+  setSearchText: (text: string) => void;
+  sortToggle: boolean;
+  setSortToggle: () => void;
+};
+
+const SearchBar = ({
+  setSearchText,
+  sortToggle,
+  setSortToggle,
+}: SearchBarProps) => {
   return (
     <View style={styles.container}>
       <FontAwesomeIcon icon={faMagnifyingGlass} size={24} color="#18122B" />
@@ -13,8 +27,15 @@ const SearchBar = () => {
           autoCorrect={false}
           autoCapitalize="none"
           clearButtonMode="always"
+          onChangeText={setSearchText}
         />
       </View>
+      <TouchableOpacity onPress={setSortToggle}>
+        <FontAwesomeIcon
+          icon={sortToggle ? faArrowDownAZ : faArrowUpZA}
+          size={24}
+        />
+      </TouchableOpacity>
     </View>
   );
 };
