@@ -1,4 +1,10 @@
-import {StyleSheet, TextInput, TouchableOpacity, View} from 'react-native';
+import {
+  Platform,
+  StyleSheet,
+  TextInput,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import React from 'react';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {
@@ -49,7 +55,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     gap: 10,
     backgroundColor: '#D2DAFF',
-    borderRadius: 20,
+    borderRadius: Platform.OS === 'ios' ? 20 : 8,
     padding: 12,
     borderWidth: 0.2,
   },
